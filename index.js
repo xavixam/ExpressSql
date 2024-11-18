@@ -1,22 +1,9 @@
 const express = require("express");
-const mysql = require("mysql2");
+const db = require("./config/database");
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "admin",
-    database: "expressdb"
-    // user: "root",
-    // password: "admin",
-    // database: "tu base de datos"
-  });
-  
-db.connect();
-
   
 app.get("/createdb", (req, res) => {
     let sql = "CREATE DATABASE expressDB";
@@ -46,7 +33,7 @@ app.get("/createcategoriestable", (req, res) => {
     db.query(sql, (err, result) => {
       if (err) throw err;
       console.log(result);
-      res.send("Products table created...");
+      res.send("Categories table created...");
     });
 });
 
