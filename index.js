@@ -1,7 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2");
 const app = express();
-const PORT = 3001;
+const PORT = 3000;
 
 app.use(express.json());
 
@@ -9,14 +9,15 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "admin",
-    // database: "tu base de datos", 
-  }); //creamos la configuración para conectarnos a la bd
+    database: "expressdb"
+    // user: "root",
+    // password: "admin",
+    // database: "tu base de datos"
+  });
   
-  db.connect();
+db.connect();
 
-// Crea las siguientes tablas usando Express y MySQL como hemos visto en clase:
-// Tabla Products
-// Tabla Categories
+  
 app.get("/createdb", (req, res) => {
     let sql = "CREATE DATABASE expressDB";
     db.query(sql, (err, result) => {
@@ -24,8 +25,31 @@ app.get("/createdb", (req, res) => {
       console.log(result);
       res.send("Database created...");
     });
-  });
-  
+});
+
+// Crea las siguientes tablas usando Express y MySQL como hemos visto en clase:
+// Tabla Products
+// Tabla Categories
+app.get("/createproductstable", (req, res) => {
+    let sql =
+      "CREATE TABLE products(id INT AUTO_INCREMENT, name VARCHAR(255), price INT, PRIMARY KEY(id))";
+    db.query(sql, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      res.send("Products table created...");
+    });
+});
+
+app.get("/createcategoriestable", (req, res) => {
+    let sql =
+      "CREATE TABLE categories(id INT AUTO_INCREMENT, name VARCHAR(255) PRIMARY KEY(id))";
+    db.query(sql, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      res.send("Products table created...");
+    });
+});
+
 // Crea un endpoint para añadir un producto nuevo y añade 2 productos nuevos desde el postman
 
 
